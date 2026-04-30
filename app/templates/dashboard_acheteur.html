@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Mon Dashboard — AgriConnect{% endblock %}
+
+{% block content %}
+<!-- EN-TÊTE -->
+<div class="row mb-4">
+    <div class="col">
+        <h2>🛒 Bonjour {{ current_user.nom }} !</h2>
+        <p class="text-muted">📍 {{ current_user.localisation }} — 
+           📞 {{ current_user.telephone }}</p>
+    </div>
+</div>
+
+<!-- INFO -->
+<div class="alert alert-success">
+    🌾 <strong>{{ produits|length }} produits</strong> disponibles 
+    près de chez vous. Contactez directement les agriculteurs !
+</div>
+
+<!-- PRODUITS RÉCENTS -->
+<h4 class="mb-3">🌽 Produits récents</h4>
+<div class="row">
+    {% for produit in produits %}
+    <div class="col-md-3 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <span class="badge bg-success mb-1">
+                    {{ produit.categorie }}
+                </span>
+                <h6 class="card-title mt-1">{{ produit.nom }}</h6>
+                <p class="mb-1">
+                    💰 <strong>{{ produit.prix }} FCFA/{{ produit.unite }}</strong>
+                </p>
+                <p class="mb-1 small">📍 {{ produit.localisation }}</p>
+                <p class="mb-2 small">🧑‍🌾 {{ produit.vendeur.nom }}</p>
+                <a href="/produit/{{ produit.id }}"
+                   class="btn btn-primary btn-sm w-100">
+                    Voir & Contacter
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

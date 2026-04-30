@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Publier un produit — AgriConnect{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card p-4 mt-3">
+            <h2 class="text-center mb-4">🌽 Publier un produit</h2>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.nom.label(class="form-label fw-bold") }}
+                    {{ form.nom(class="form-control", placeholder="Ex: Maïs blanc sec") }}
+                    {% for error in form.nom.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.description.label(class="form-label fw-bold") }}
+                    {{ form.description(class="form-control", rows=3,
+                       placeholder="Décrivez votre produit : qualité, origine, conditions...") }}
+                    {% for error in form.description.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form.prix.label(class="form-label fw-bold") }}
+                        {{ form.prix(class="form-control", placeholder="Ex: 15000") }}
+                        {% for error in form.prix.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form.unite.label(class="form-label fw-bold") }}
+                        {{ form.unite(class="form-select") }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form.quantite.label(class="form-label fw-bold") }}
+                        {{ form.quantite(class="form-control", placeholder="Ex: 50") }}
+                        {% for error in form.quantite.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form.categorie.label(class="form-label fw-bold") }}
+                        {{ form.categorie(class="form-select") }}
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    {{ form.localisation.label(class="form-label fw-bold") }}
+                    {{ form.localisation(class="form-control") }}
+                    {% for error in form.localisation.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                {{ form.submit(class="btn btn-primary w-100 py-2") }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

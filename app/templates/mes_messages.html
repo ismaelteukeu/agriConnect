@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Mes Messages — AgriConnect{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📬 Mes messages reçus</h2>
+
+{% if messages %}
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-success">
+            <tr>
+                <th>De</th>
+                <th>Produit concerné</th>
+                <th>Message</th>
+                <th>Téléphone</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for msg in messages %}
+            <tr>
+                <td><strong>{{ msg.expediteur.nom }}</strong></td>
+                <td>{{ msg.produit.nom }}</td>
+                <td>{{ msg.contenu[:80] }}...</td>
+                <td>
+                    <a href="tel:{{ msg.expediteur.telephone }}">
+                        📞 {{ msg.expediteur.telephone }}
+                    </a>
+                </td>
+                <td>
+                    <small>{{ msg.date_envoi.strftime('%d/%m/%Y %H:%M') }}</small>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info text-center py-5">
+    <h5>Aucun message reçu pour l'instant.</h5>
+    <p>Les acheteurs intéressés par vos produits vous contacteront ici.</p>
+</div>
+{% endif %}
+{% endblock %}

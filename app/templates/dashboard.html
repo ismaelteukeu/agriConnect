@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AgriConnect{% endblock %}
+
+{% block content %}
+<h2>👋 Bonjour {{ current_user.nom }} !</h2>
+<p class="text-muted">Rôle : {{ current_user.role }}</p>
+<div class="alert alert-success">
+    ✅ Vous êtes bien connecté(e). Le dashboard complet arrive bientôt !
+</div>
+{% endblock %}

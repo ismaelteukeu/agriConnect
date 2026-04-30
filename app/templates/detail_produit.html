@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}{{ produit.nom }} — AgriConnect{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="/produits">Produits</a></li>
+                <li class="breadcrumb-item active">{{ produit.nom }}</li>
+            </ol>
+        </nav>
+
+        <div class="card p-4">
+            <span class="badge bg-success mb-2 w-25">{{ produit.categorie }}</span>
+            <h2>{{ produit.nom }}</h2>
+            <p class="text-muted">{{ produit.description }}</p>
+            <hr>
+            <div class="row">
+                <div class="col-6">
+                    <p>💰 <strong>Prix :</strong> {{ produit.prix }} FCFA / {{ produit.unite }}</p>
+                    <p>📦 <strong>Quantité :</strong> {{ produit.quantite }} {{ produit.unite }}</p>
+                </div>
+                <div class="col-6">
+                    <p>📍 <strong>Lieu :</strong> {{ produit.localisation }}</p>
+                    <p>📅 <strong>Publié le :</strong>
+                        {{ produit.date_publication.strftime('%d/%m/%Y') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARTE AGRICULTEUR -->
+   <div class="col-md-4">
+    <div class="card p-4">
+        <h5>🧑‍🌾 Agriculteur</h5>
+        <hr>
+        <p><strong>{{ produit.vendeur.nom }}</strong></p>
+        <p>📍 {{ produit.vendeur.localisation }}</p>
+        <p>📞 {{ produit.vendeur.telephone }}</p>
+        <hr>
+        {% if current_user.is_authenticated %}
+            {% if current_user.role == 'acheteur' %}
+                <a href="tel:{{ produit.vendeur.telephone }}"
+                   class="btn btn-success w-100 mb-2">
+                    📞 Appeler l'agriculteur
+                </a>
+                <a href="https://wa.me/{{ produit.vendeur.telephone }}"
+                   class="btn btn-outline-success w-100 mb-2" target="_blank">
+                    💬 WhatsApp
+                </a>
+                <a href="/contacter/{{ produit.id }}"
+                   class="btn btn-primary w-100">
+                    ✉️ Envoyer un message
+                </a>
+            {% elif current_user.id == produit.utilisateur_id %}
+                <div class="alert alert-info text-center mb-0">
+                    C'est votre produit
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-warning text-center">
+                <a href="/connexion">Connectez-vous</a> 
+                pour contacter l'agriculteur
+            </div>
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

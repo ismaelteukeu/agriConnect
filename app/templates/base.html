@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AgriConnect{% endblock %}</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Icônes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .navbar { background-color: #2d6a4f !important; }
+        .navbar-brand, .nav-link { color: white !important; }
+        .btn-primary { background-color: #2d6a4f; border-color: #2d6a4f; }
+        .btn-primary:hover { background-color: #1b4332; }
+        .card { border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        footer { background-color: #2d6a4f; color: white; margin-top: 60px; }
+    </style>
+</head>
+<body>
+
+<!-- BARRE DE NAVIGATION -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">
+            🌱 AgriConnect
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+          <ul class="navbar-nav ms-auto">
+             <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
+             <li class="nav-item"><a class="nav-link" href="/produits">Produits</a></li>
+                 {% if current_user.is_authenticated %}
+                    {% if current_user.role == 'agriculteur' %}
+             <li class="nav-item"><a class="nav-link" href="/publier">➕ Publier</a></li>
+                  {% endif %}
+             <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+             <li class="nav-item"><a class="nav-link" href="/mes-messages">📬 Messages</a></li>
+             <li class="nav-item"><a class="nav-link" href="/deconnexion">Déconnexion</a></li>
+              {% else %}
+             <li class="nav-item"><a class="nav-link" href="/inscription">Inscription</a></li>
+             <li class="nav-item"><a class="nav-link" href="/connexion">Connexion</a></li>
+              {% endif %}
+         </ul>
+
+        </div>
+    </div>
+</nav>
+
+<!-- MESSAGES FLASH -->
+<div class="container mt-3">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<!-- CONTENU PRINCIPAL -->
+<main class="container my-4">
+    {% block content %}{% endblock %}
+</main>
+
+<!-- FOOTER -->
+<footer class="py-4 mt-5">
+    <div class="container text-center">
+        <p class="mb-0">🌱 AgriConnect — Connecter les agriculteurs aux acheteurs au Cameroun</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

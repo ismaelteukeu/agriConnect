@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Mon Dashboard — AgriConnect{% endblock %}
+
+{% block content %}
+<!-- EN-TÊTE -->
+<div class="row mb-4">
+    <div class="col">
+        <h2>👨‍🌾 Bonjour {{ current_user.nom }} !</h2>
+        <p class="text-muted">📍 {{ current_user.localisation }} — 
+           📞 {{ current_user.telephone }}</p>
+    </div>
+    <div class="col-auto">
+        <a href="/publier" class="btn btn-primary">
+            ➕ Publier un produit
+        </a>
+    </div>
+</div>
+
+<!-- STATISTIQUES -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center p-3 border-success">
+            <h1 class="text-success">{{ produits|length }}</h1>
+            <p class="mb-0">Produits publiés</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center p-3 border-primary">
+            <h1 class="text-primary">
+                {{ produits|selectattr('disponible')|list|length }}
+            </h1>
+            <p class="mb-0">Produits disponibles</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center p-3 border-warning">
+            <h1 class="text-warning">
+                {{ produits|rejectattr('disponible')|list|length }}
+            </h1>
+            <p class="mb-0">Produits indisponibles</p>
+        </div>
+    </div>
+</div>
+
+<!-- LISTE DES PRODUITS -->
+<h4 class="mb-3">📦 Mes produits</h4>
+{% if produits %}
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-success">
+            <tr>
+                <th>Produit</th>
+                <th>Catégorie</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Localisation</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produit in produits %}
+            <tr>
+                <td><strong>{{ produit.nom }}</strong></td>
+                <td>{{ produit.categorie }}</td>
+                <td>{{ produit.prix }} FCFA/{{ produit.unite }}</td>
+                <td>{{ produit.quantite }} {{ produit.unite }}</td>
+                <td>📍 {{ produit.localisation }}</td>
+                <td>
+                    {% if produit.disponible %}
+                        <span class="badge bg-success">Disponible</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Indisponible</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="/produit/toggle/{{ produit.id }}"
+                       class="btn btn-sm btn-outline-warning">
+                        {% if produit.disponible %}⏸ Désactiver
+                        {% else %}▶ Activer{% endif %}
+                    </a>
+                    <a href="/produit/supprimer/{{ produit.id }}"
+                       class="btn btn-sm btn-outline-danger"
+                       onclick="return confirm('Supprimer ce produit ?')">
+                        🗑 Supprimer
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info text-center py-5">
+    <h5>Vous n'avez pas encore publié de produit.</h5>
+    <a href="/publier" class="btn btn-primary mt-2">
+        ➕ Publier mon premier produit
+    </a>
+</div>
+{% endif %}
+{% endblock %}

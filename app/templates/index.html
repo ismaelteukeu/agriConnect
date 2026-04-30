@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Accueil — AgriConnect{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<div class="p-5 mb-4 rounded-3 text-white" style="background-color: #2d6a4f;">
+    <div class="container-fluid py-3 text-center">
+        <h1 class="display-5 fw-bold">🌾 Bienvenue sur AgriConnect</h1>
+        <p class="col-md-8 fs-5 mx-auto">
+            La plateforme qui connecte les agriculteurs camerounais aux acheteurs.
+            Achetez directement du producteur, sans intermédiaire.
+        </p>
+        <a href="/produits" class="btn btn-light btn-lg me-2">Voir les produits</a>
+        <a href="/inscription" class="btn btn-outline-light btn-lg">Rejoindre la plateforme</a>
+    </div>
+</div>
+
+<!-- STATISTIQUES -->
+<div class="row text-center my-5">
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h2 class="text-success">🧑‍🌾</h2>
+            <h3>Agriculteurs</h3>
+            <p class="text-muted">Publiez vos produits gratuitement</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h2 class="text-success">🛒</h2>
+            <h3>Acheteurs</h3>
+            <p class="text-muted">Trouvez des produits frais près de chez vous</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h2 class="text-success">💬</h2>
+            <h3>Contact direct</h3>
+            <p class="text-muted">Contactez le producteur en un clic</p>
+        </div>
+    </div>
+</div>
+
+<!-- DERNIERS PRODUITS -->
+<h2 class="mb-4">🌽 Derniers produits publiés</h2>
+{% if produits %}
+    <div class="row">
+        {% for produit in produits %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ produit.nom }}</h5>
+                    <p class="card-text text-muted">{{ produit.description[:80] }}...</p>
+                    <p><strong>💰 {{ produit.prix }} FCFA / {{ produit.unite }}</strong></p>
+                    <p><small>📍 {{ produit.localisation }}</small></p>
+                    <a href="/produit/{{ produit.id }}" class="btn btn-primary btn-sm">Voir le détail</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        Aucun produit publié pour l'instant.
+        <a href="/inscription">Soyez le premier à publier !</a>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Produits — AgriConnect{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">🌽 Produits disponibles</h2>
+
+<!-- BARRE DE RECHERCHE ET FILTRE -->
+<form method="GET" action="/produits" class="row g-3 mb-4">
+    <div class="col-md-6">
+        <input type="text" name="recherche" class="form-control"
+               placeholder="🔍 Rechercher un produit..."
+               value="{{ recherche }}">
+    </div>
+    <div class="col-md-4">
+        <select name="categorie" class="form-select">
+            <option value="">Toutes les catégories</option>
+            <option value="cereales" {% if categorie=='cereales' %}selected{% endif %}>🌾 Céréales</option>
+            <option value="tubercules" {% if categorie=='tubercules' %}selected{% endif %}>🥔 Tubercules</option>
+            <option value="legumes" {% if categorie=='legumes' %}selected{% endif %}>🥬 Légumes</option>
+            <option value="fruits" {% if categorie=='fruits' %}selected{% endif %}>🍌 Fruits</option>
+            <option value="elevage" {% if categorie=='elevage' %}selected{% endif %}>🐄 Élevage</option>
+            <option value="autres" {% if categorie=='autres' %}selected{% endif %}>📦 Autres</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+    </div>
+</form>
+
+<!-- LISTE DES PRODUITS -->
+{% if produits %}
+    <div class="row">
+        {% for produit in produits %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <span class="badge bg-success mb-2">{{ produit.categorie }}</span>
+                    <h5 class="card-title">{{ produit.nom }}</h5>
+                    <p class="card-text text-muted">
+                        {{ produit.description[:100] }}...
+                    </p>
+                    <hr>
+                    <p class="mb-1">
+                        💰 <strong>{{ produit.prix }} FCFA / {{ produit.unite }}</strong>
+                    </p>
+                    <p class="mb-1">
+                        📦 Quantité : {{ produit.quantite }} {{ produit.unite }}
+                    </p>
+                    <p class="mb-2">
+                        📍 {{ produit.localisation }}
+                    </p>
+                    <p class="mb-3">
+                        🧑‍🌾 {{ produit.vendeur.nom }}
+                    </p>
+                    <a href="/produit/{{ produit.id }}"
+                       class="btn btn-primary btn-sm w-100">
+                        Voir le détail
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info text-center py-5">
+        <h4>Aucun produit trouvé 😕</h4>
+        <p>Essayez une autre recherche ou revenez plus tard.</p>
+        {% if current_user.is_authenticated and current_user.role == 'agriculteur' %}
+            <a href="/publier" class="btn btn-primary">Publier le premier produit</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

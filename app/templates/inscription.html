@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Inscription — AgriConnect{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-4 mt-4">
+            <h2 class="text-center mb-4">🌱 Créer un compte</h2>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="mb-3">
+                    {{ form.nom.label(class="form-label fw-bold") }}
+                    {{ form.nom(class="form-control", placeholder="Ex: Ismael Teukeu") }}
+                    {% for error in form.nom.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.email.label(class="form-label fw-bold") }}
+                    {{ form.email(class="form-control", placeholder="exemple@email.com") }}
+                    {% for error in form.email.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.telephone.label(class="form-label fw-bold") }}
+                    {{ form.telephone(class="form-control", placeholder="Ex: +237 6XX XXX XXX") }}
+                    {% for error in form.telephone.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.localisation.label(class="form-label fw-bold") }}
+                    {{ form.localisation(class="form-control", placeholder="Ex: Yaoundé, Centre") }}
+                    {% for error in form.localisation.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.role.label(class="form-label fw-bold") }}
+                    {{ form.role(class="form-select") }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.mot_de_passe.label(class="form-label fw-bold") }}
+                    {{ form.mot_de_passe(class="form-control") }}
+                    {% for error in form.mot_de_passe.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-4">
+                    {{ form.confirmation.label(class="form-label fw-bold") }}
+                    {{ form.confirmation(class="form-control") }}
+                    {% for error in form.confirmation.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                {{ form.submit(class="btn btn-primary w-100 py-2") }}
+            </form>
+            <p class="text-center mt-3">
+                Déjà un compte ? <a href="/connexion">Se connecter</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
