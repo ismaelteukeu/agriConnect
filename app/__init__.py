@@ -13,6 +13,21 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    # Debug — affiche l'URL en cours de démarrage
+    print("DATABASE URI:", app.config.get('SQLALCHEMY_DATABASE_URI'))
+
+    db.init_app(app)
+    login_manager.init_app(app)
+    bcrypt.init_app(app)
+
+    login_manager.login_view = 'main.connexion'
+    login_manager.login_message = 'Connectez-vous pour accéder à cette page.'
+    login_manager.login_message_category = 'warning'
+
+    from app.routes import main
+    app.register_blueprint(main)
+
+    return app
     # Connexion des extensions à l'app
     db.init_app(app)
     login_manager.init_app(app)
